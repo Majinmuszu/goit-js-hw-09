@@ -42,7 +42,7 @@ const runFunction = e => {
       });
       
     delayValue = delayValue + stepValue;
-    console.log(delayValue);
+    //console.log(delayValue);
     position++;
   }
 };

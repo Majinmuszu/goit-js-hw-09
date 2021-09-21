@@ -44,17 +44,19 @@ let remainingTime = 0;
 let currentValue = '';
 
 //by default btnStart is disabled
-btnStart.setAttribute('disabled', true);
+btnStart.disabled = true;
 
-//function to check if choosen time is correct and 
+//function to check if choosen time is correct and
 //adding proper alerts with notiflix
 const timeCheck = () => {
   if (currentTime > choosenTime) {
     Notiflix.Notify.failure('Please choose a date in the future');
     //alert('Please choose a date in the future');
   } else {
-    btnStart.removeAttribute('disabled');
-    Notiflix.Notify.success('Correct date choosen, press start to begin COUNTDOWN (*Europe-final countdown - playing in background*) :)')
+    btnStart.disabled = false;
+    Notiflix.Notify.success(
+      'Correct date choosen, press start to begin COUNTDOWN (*Europe-final countdown - playing in background*) :)',
+    );
   }
 };
 
@@ -64,14 +66,18 @@ const countdown = () => {
   let time = choosenTime - currentTime;
   remainingTime = setInterval(() => {
     time -= 1000;
-    let remaining = convertMs(time);
-
-    days.innerHTML = addLeadingZero(remaining.days);
-    hours.innerHTML = addLeadingZero(remaining.hours);
-    minutes.innerHTML = addLeadingZero(remaining.minutes);
-    seconds.innerHTML = addLeadingZero(remaining.seconds);
+    if (time <= 300) {
+      stopCountdown();
+      Notiflix.Report.failure('Out of time!', 'The time has come', 'Fine');
+    } else {
+      let remaining = convertMs(time);
+      days.innerHTML = addLeadingZero(remaining.days);
+      hours.innerHTML = addLeadingZero(remaining.hours);
+      minutes.innerHTML = addLeadingZero(remaining.minutes);
+      seconds.innerHTML = addLeadingZero(remaining.seconds);
+      btnStart.disabled = true;
+    }
   }, 1000);
-  btnStart.setAttribute('disabled', true);
 };
 
 //function that clears interval and resets values at
@@ -82,7 +88,7 @@ const stopCountdown = () => {
   hours.innerHTML = '00';
   minutes.innerHTML = '00';
   seconds.innerHTML = '00';
-  btnStart.setAttribute('disabled', true);
+  btnStart.disabled = true;
 };
 
 //function adding ledaing zero

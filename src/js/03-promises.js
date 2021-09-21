@@ -33,7 +33,6 @@ const runFunction = e => {
 
   for (let i = 1; i <= inputAmount.value; i++) {
     let position = i;
-    delayValue = delayValue + stepValue;
     createPromise(position, delayValue)
       .then(value => {
         console.log(`✅ Fulfilled promise ${position - 1} in ${delayValue}ms`);
@@ -41,6 +40,8 @@ const runFunction = e => {
       .catch(err => {
         console.log(`❌ Rejected promise ${position - 1} in ${delayValue}ms`);
       });
+      
+    delayValue = delayValue + stepValue;
     console.log(delayValue);
     position++;
   }
